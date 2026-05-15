@@ -62,7 +62,7 @@ jobs:
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
-        working-directory: env/dev/eu-west-1
+        working-directory: environments/dev/eu-west-1
 
     steps:
     # Checkout the repository to the GitHub Actions runner
