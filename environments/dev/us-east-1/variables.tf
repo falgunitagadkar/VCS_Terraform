@@ -8,7 +8,7 @@ variable "environment_name" {
   type        = string
 
   validation {
-    condition = contains(["dev", "staging", "prod", "uat", "infra", "qa"], var.environment_name)
+    condition     = contains(["dev", "staging", "prod", "uat", "infra", "qa"], var.environment_name)
     error_message = "Environment name not supported"
   }
 }

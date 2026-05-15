@@ -1,23 +1,23 @@
 locals {
   name_prefix = "/${var.resource_prefix}/${var.environment_name}"
-  tag_prefix = "${var.resource_prefix}-${var.environment_name}"
+  tag_prefix  = "${var.resource_prefix}-${var.environment_name}"
 
-# boolean values
+  # boolean values
   is_production_environment = var.environment_name == "prod"
   is_staging_environment    = var.environment_name == "staging"
 }
 
 # VPC ------------------------------------------------------
 resource "aws_vpc" "vpc" {
-  cidr_block  = var.cidr_block
+  cidr_block           = var.cidr_block
   enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
-    Name        = "${local.tag_prefix}-website-VPC"
+    Name             = "${local.tag_prefix}-website-VPC"
     "iv:environment" = var.environment_name
-    "iv:country"  = var.environment_region
-    "iv:product"  = "eMSP"
+    "iv:country"     = var.environment_region
+    "iv:product"     = "eMSP"
     "iv:object-type" = "EC2 VPC"
   }
 }
@@ -27,13 +27,13 @@ resource "aws_ssm_parameter" "vpc_id" {
   name        = "${local.name_prefix}/website/vpc-id"
   description = "VPC Id"
   type        = "String"
-  value       = aws_vpc.vpc.id 
+  value       = aws_vpc.vpc.id
 
   tags = {
-    Name        = "${local.name_prefix}/website/vpc-id"
+    Name             = "${local.name_prefix}/website/vpc-id"
     "iv:environment" = var.environment_name
-    "iv:country"  = var.environment_region
-    "iv:product"  = "eMSP"
+    "iv:country"     = var.environment_region
+    "iv:product"     = "eMSP"
     "iv:object-type" = "SSM Parameter"
   }
 }
@@ -45,20 +45,20 @@ resource "aws_ssm_parameter" "ssm_cidr_block" {
   value       = var.cidr_block
 
   tags = {
-    Name        = "${local.name_prefix}/website/vpc/cidrblock"
+    Name             = "${local.name_prefix}/website/vpc/cidrblock"
     "iv:environment" = var.environment_name
-    "iv:country"  = var.environment_region
-    "iv:product"  = "eMSP"
+    "iv:country"     = var.environment_region
+    "iv:product"     = "eMSP"
     "iv:object-type" = "SSM Parameter"
   }
 }
 
 resource "aws_internet_gateway" "igw" {
   tags = {
-    Name        = "${local.tag_prefix}-website-IGW"
+    Name             = "${local.tag_prefix}-website-IGW"
     "iv:environment" = var.environment_name
-    "iv:country"  = var.environment_region
-    "iv:product"  = "eMSP"
+    "iv:country"     = var.environment_region
+    "iv:product"     = "eMSP"
     "iv:object-type" = "EC2 InternetGateway"
   }
 }
@@ -72,10 +72,10 @@ resource "aws_cloudwatch_log_group" "vpc_flow_log_group" {
   name = "${local.tag_prefix}-website-vpc-flow-LogGroup"
 
   tags = {
-    Name        = "${local.tag_prefix}-website-vpc-flow-LogGroup"
+    Name             = "${local.tag_prefix}-website-vpc-flow-LogGroup"
     "iv:environment" = var.environment_name
-    "iv:country"  = var.environment_region
-    "iv:product"  = "eMSP"
+    "iv:country"     = var.environment_region
+    "iv:product"     = "eMSP"
     "iv:object-type" = "VPC flow Log group"
   }
 }
@@ -101,10 +101,10 @@ resource "aws_iam_role" "vpc_flow_log_role" {
   })
 
   tags = {
-    Name        = "${local.tag_prefix}-website-vpc-flow-log-role"
+    Name             = "${local.tag_prefix}-website-vpc-flow-log-role"
     "iv:environment" = var.environment_name
-    "iv:country"  = var.environment_region
-    "iv:product"  = "eMSP"
+    "iv:country"     = var.environment_region
+    "iv:product"     = "eMSP"
     "iv:object-type" = "VPC flow log role"
   }
 }
@@ -115,7 +115,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_logs" {
 }
 
 resource "aws_flow_log" "this" {
-  iam_role_arn    = aws_iam_role.vpc_flow_log_role.arn        # !GetAtt VPCFlowLogRole.Arn
+  iam_role_arn    = aws_iam_role.vpc_flow_log_role.arn              # !GetAtt VPCFlowLogRole.Arn
   log_destination = aws_cloudwatch_log_group.vpc_flow_log_group.arn # !Ref VPCFlowLogGroup
   vpc_id          = aws_vpc.vpc.id
   traffic_type    = "REJECT"

@@ -62,7 +62,7 @@ jobs:
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
-        working-directory: environments/dev/eu-west-1
+        working-directory: environments/dev/us-east-1
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -91,7 +91,6 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      if: github.event_name == 'pull_request'
       run: terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files

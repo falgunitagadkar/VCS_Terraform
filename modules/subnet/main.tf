@@ -19,7 +19,7 @@ data "aws_region" "current" {}
 #   tags = {
 #     Name = "Test Subnet"
 #   }
-  
+
 #   vpc_id = "vpc-049f2c69158c2255d"
 # }
 

@@ -3,7 +3,3 @@
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
-
-# Exclude all .tfvars files (often contain secrets)
-*.tfvars
-*.tfvars.json
