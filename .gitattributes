@@ -1,0 +1,8 @@
+# Enforce LF line endings for all Terraform files across all modules and envs
+*.tf text eol=lf
+*.tfvars text eol=lf
+
+# Ensure lock files match exactly across local and CI runners
+.terraform.lock.hcl text eol=lf
+
+*.md text
